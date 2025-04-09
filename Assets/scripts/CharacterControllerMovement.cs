@@ -28,32 +28,38 @@ public class CharacterControllerMovement : MonoBehaviour
     private bool isSprinting = false;
     private bool isCrouching = false;
 
-    public AudioClip walkClip; // Assign this from the Inspector
+    public AudioClip walkClip; // Walking sound
+    public AudioClip sprintClip; // Sprinting sound
+    public AudioClip atmosphericClip; // Atmospheric sound (e.g., wind, rain, etc.)
     private AudioSource audioSource;
+    private AudioSource atmosphericAudioSource; // Separate AudioSource for atmospheric sound
 
     void Start()
     {
-      
-            controller = GetComponent<CharacterController>();
-            originalHeight = controller.height;
-            originalCenter = controller.center;
+        controller = GetComponent<CharacterController>();
+        originalHeight = controller.height;
+        originalCenter = controller.center;
 
-            // Get the AudioSource attached to the player
-            audioSource = GetComponent<AudioSource>();
-            audioSource.clip = walkClip;
-            audioSource.loop = true;
-            audioSource.playOnAwake = false;
+        // Get the AudioSource attached to the player for movement sounds
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
 
-            //Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = false;
-        
+        // Create a separate AudioSource for atmospheric sounds
+        atmosphericAudioSource = gameObject.AddComponent<AudioSource>();
+        atmosphericAudioSource.clip = atmosphericClip;
+        atmosphericAudioSource.loop = true; // Loop the atmospheric sound
+        atmosphericAudioSource.playOnAwake = true; // Start playing when the game starts
 
+        // Start the atmospheric sound
+        atmosphericAudioSource.Play();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
         HandleMouseLook();
-      //  HandleSprint(); // Must come before movement so speed is updated
         HandleCrouch();
         HandleMovement();
     }
@@ -96,26 +102,33 @@ public class CharacterControllerMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.LeftShift) && isMoving && !isCrouching)
         {
             currentSpeed = sprintSpeed;
-        }
-
-        controller.Move(move * currentSpeed * Time.deltaTime);
-
-        if (isMoving)
-        {
-            Debug.Log("Calling Audio Source");
-            // Check if the audio is not already playing to avoid restarting the clip repeatedly
-            if (!audioSource.isPlaying)
+            if (!audioSource.isPlaying || audioSource.clip != sprintClip)
             {
-                audioSource.Play();
+                audioSource.clip = sprintClip; // Switch to sprinting sound
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
             }
         }
         else
         {
-            // Stop the audio if the player stops moving
-            if (audioSource.isPlaying)
+            currentSpeed = moveSpeed;
+            if (!audioSource.isPlaying || audioSource.clip != walkClip)
             {
-                audioSource.Stop();
+                audioSource.clip = walkClip; // Switch to walking sound
+                if (!audioSource.isPlaying)
+                    audioSource.Play();
             }
+        }
+
+        controller.Move(move * currentSpeed * Time.deltaTime);
+
+        if (isMoving && !audioSource.isPlaying)
+        {
+            audioSource.Play(); // Ensure the audio starts if the player is moving
+        }
+        else if (!isMoving && audioSource.isPlaying)
+        {
+            audioSource.Stop(); // Stop the audio when the player is not moving
         }
 
         if (Input.GetButtonDown("Jump") && isGrounded && !isCrouching)
@@ -126,8 +139,6 @@ public class CharacterControllerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
-
-
 
     void HandleCrouch()
     {

@@ -13,7 +13,6 @@ public class EnemyType1 : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       // playerStats.dealDamage(5);
-        Debug.Log("In contact wt player");
+       
     }
 }
