@@ -147,7 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   player: {fileID: 796210146265254776, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
-  detectionRange: 20
+  detectionRange: 37.8
   attackRange: 2
   speed: 1.5
   bloodSplatterPrefab: {fileID: 1743637094903878, guid: 021a2f7a2c5bc4449b4c64a66a050e8c, type: 3}

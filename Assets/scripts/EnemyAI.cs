@@ -95,7 +95,7 @@ public class EnemyAI : MonoBehaviour
         if (collision.collider.CompareTag("Player"))
         {
             Debug.Log("Collided WITH Player");
-            playerStats.dealDamage(1);
+            playerStats.dealDamage(2);
 
             // Play the collision sound when colliding with the player
             if (audioSource != null && collisionClip != null)

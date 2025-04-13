@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPrefab;    // Enemy prefab to be spawned
     public int[] waveEnemyCounts = new int[] { 3, 5, 10, 12, 12, 20 }; // Number of enemies for each wave
     public float[] waveDelays = new float[] { 0f, 30f, 30f, 60f, 60f, 60f }; // Delay before each wave
+    public TMP_Text countdown4Waves;
 
     [Header("Spawn Locations")]
     public Transform[] spawnPoints;   // Array of Transforms where enemies will spawn
@@ -17,8 +19,31 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         // Start the wave spawning logic
-        StartCoroutine(SpawnWaves());
+        StartCoroutine(CountdownAndCall());
+        //StartCoroutine(SpawnWaves());
     }
+
+    IEnumerator CountdownAndCall()
+    {
+        int countdownTime = 10;
+        while (countdownTime > 0)
+        {
+            countdown4Waves.text = $"1st Wave in {countdownTime} seconds...";
+            yield return new WaitForSeconds(1f);
+            countdownTime--;
+        }
+
+        countdown4Waves.text = " ";
+        StartCoroutine(SpawnWaves());
+       // YourFunction();
+    }
+
+    void YourFunction()
+    {
+        Debug.Log("Function called!");
+        // Put your actual logic here
+    }
+
 
     IEnumerator SpawnWaves()
     {

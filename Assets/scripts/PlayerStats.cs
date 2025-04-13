@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviour
 
     public GameObject damageEffectPrefab;
 
+    GameManagerUI gameManager;
     private void Start()
     {
         maxHealth = 100f;
@@ -133,6 +134,10 @@ public class PlayerStats : MonoBehaviour
     void GameWin()
     {
         gameWinPanel.SetActive(true);  // Activate the GameWin panel
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+
         PauseGame(); // Pause the game when the game is won
     }
 
@@ -140,6 +145,8 @@ public class PlayerStats : MonoBehaviour
     void GameLose()
     {
         gameLosePanel.SetActive(true); // Activate the GameLose panel
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         PauseGame(); // Pause the game when the game is lost
     }
 
