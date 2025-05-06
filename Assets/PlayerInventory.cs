@@ -2,34 +2,39 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private PlayerStats playerStats;
-   // [HideInInspector]
+    public PlayerStats playerStats;
+
     public int itemPickedUp = 0;
-   // [HideInInspector]
     public int dropItems = 0;
 
-    /// <summary>
-    /// How many items the player is currently holding.
-    /// </summary>
-    /// 
-    void start()
+    void Start()
     {
         playerStats = GameObject.FindGameObjectWithTag("Player")
-                              .GetComponent<PlayerStats>();
+                                .GetComponent<PlayerStats>();
+        if (playerStats != null)
+        {
+            Debug.Log("the economy is doing very nice");
+        }
     }
+
     public int HeldItemCount
     {
         get { return itemPickedUp - dropItems; }
     }
 
-    void update()
+    void Update()
     {
         if (dropItems >= 5)
         {
-            Debug.log("ENEMY DROPP ALL ITEMS - ENEMY WINS")
-                // Start couritine for  scientist cooking ingredients 
-                // animation
-                //WIn logic
+            Debug.Log("ENEMY DROPPED ALL ITEMS - ENEMY WINS");
+
+            // Call GameWin method from PlayerStats
+            if (playerStats != null)
+            {
+                playerStats.GameWin();
+            }
+
+            // You can also trigger animations or coroutines here
         }
     }
 }
