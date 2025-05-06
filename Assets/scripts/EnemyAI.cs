@@ -62,7 +62,7 @@ public class EnemyAI : MonoBehaviour
         if (distance <= detectionRange)
         {
             agent.SetDestination(playerr.transform.position);
-            Debug.Log("Setting destination to player.");
+            //Debug.Log("Setting destination to player.");
 
             if (distance <= attackRange)
             {
@@ -73,7 +73,7 @@ public class EnemyAI : MonoBehaviour
         else
         {
             agent.ResetPath(); // Stop moving if out of range
-            Debug.Log("Out of detection range, stopping.");
+           // Debug.Log("Out of detection range, stopping.");
         }
 
         // Check if the enemy is moving

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -526,7 +526,8 @@ MonoBehaviour:
   m_text: "The enemy doesn\u2019t stop. They come in waves, stronger and more desperate.\n\nMake
     it through each one, and you might just see another dawn.\n\nStick to the shadows
     when you can. Save your firepower for when it matters most.\nKeep your eyes sharp.
-    Stay on your feet.\n\nSurvive.\n\nGood luck.\nYou\u2019re going to need it."
+    Stay on your feet.\n\nThe Anecdtotes are the Green Items which Dr Kalitz Needs
+    to survive\n\nSurvive.\n\nGood luck.\nYou\u2019re going to need it."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1507,9 +1508,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: "The world as you knew it is gone.\n\nAsh covers the ruins of once-great
     cities. Silence fills the streets where life used to thrive. Survivors are few,
-    and hope is even rarer.\n\nYou\u2019re one of the last.\n\nNo reinforcements.
-    No backup. Just instinct, grit, and a will to live.\n\nThis is the fight for
-    your life.\nThis is survival."
+    and hope is even rarer.\n\nYou\u2019re one of the last. \n\nSave Dr Kalitz by
+    finding the ingredients for the anecdote.\n\nNo reinforcements. No backup. Just
+    instinct, grit, and a will to live.\n\nThis is the fight for your life.\nThis
+    is survival."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1955,7 +1957,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'DIGA3001A - PROTOTYPE 2
+  m_text: 'DIGA3001A - PROTOTYPE 3
 
     lUBABALO dlWATHI'
   m_isRightToLeft: 0
@@ -2091,11 +2093,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your objective is simple:\nStay alive until the final wave ends.\n\nYou
-    can shoot your way through, but ammunition is limited. Every bullet must count.\nYou
-    can run, dodge, or hide \u2014 use the world around you.\nYou\u2019ll find supplies
-    scattered through the ruins \u2014 health packs and ammo. Grab them when you
-    can.\n\nEvery choice could mean life or death.\nKeep moving. Keep breathing."
+  m_text: "Your objective is simple:\nSave Dr Kalitz and survive till the final wave
+    to restore humanity\n\nYou can shoot your way through, but ammunition is limited.
+    Every bullet must count.\nYou can run, dodge, or hide \u2014 use the world around
+    you.\nYou\u2019ll find supplies scattered through the ruins \u2014 health packs
+    and ammo. Grab them when you can.\n\nEvery choice could mean life or death.\nKeep
+    moving. Keep breathing."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

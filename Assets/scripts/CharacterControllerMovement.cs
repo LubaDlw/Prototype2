@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class CharacterControllerMovement : MonoBehaviour
 {
+
+    
     [Header("Mouse Look Settings")]
     public float mouseSensitivity = 100f;
     public Transform cameraTransform;
@@ -33,6 +35,9 @@ public class CharacterControllerMovement : MonoBehaviour
     public AudioClip atmosphericClip; // Atmospheric sound (e.g., wind, rain, etc.)
     private AudioSource audioSource;
     private AudioSource atmosphericAudioSource; // Separate AudioSource for atmospheric sound
+
+
+   
 
     void Start()
     {
