@@ -3601,6 +3601,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrompt: {fileID: 708580612}
+  pickUptxt: {fileID: 0}
 --- !u!65 &298663928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5364,6 +5365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrompt: {fileID: 708580612}
+  pickUptxt: {fileID: 0}
 --- !u!65 &391011907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8054,6 +8056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrompt: {fileID: 708580612}
+  pickUptxt: {fileID: 0}
 --- !u!65 &587781606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9008,6 +9011,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrompt: {fileID: 708580612}
+  pickUptxt: {fileID: 0}
 --- !u!65 &639360190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10006,7 +10010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &708580613
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10046,7 +10050,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: PRESS E TO PICK UP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10079,7 +10083,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -20424,6 +20428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupPrompt: {fileID: 708580612}
+  pickUptxt: {fileID: 0}
 --- !u!65 &1370476955
 BoxCollider:
   m_ObjectHideFlags: 0
