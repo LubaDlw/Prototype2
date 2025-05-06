@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using TMPro;
 
 public class PickupItem : MonoBehaviour
@@ -7,6 +8,7 @@ public class PickupItem : MonoBehaviour
     private bool isPlayerNearby = false;
     private PlayerInventory inventory;
     public TMP_Text pickUptxt;
+    public TMP_Text messageText;
 
     void Start()
     {
@@ -15,7 +17,21 @@ public class PickupItem : MonoBehaviour
                               .GetComponent<PlayerInventory>();
     }
 
-    
+    public void ShowReturnMessage()
+    {
+        StartCoroutine(ShowMessageCoroutine("Item Picked Up, Return To Scientist", 2.5f));
+    }
+
+    private IEnumerator ShowMessageCoroutine(string message, float duration)
+    {
+        messageText.text = message;
+        messageText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        messageText.gameObject.SetActive(false);
+    }
+
+
+
     void Update()
     {
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
@@ -27,6 +43,7 @@ public class PickupItem : MonoBehaviour
             else
             {
                 Debug.Log("Already holding an item. Drop it first!");
+                ShowReturnMessage();
             }
         }
     }
@@ -34,6 +51,7 @@ public class PickupItem : MonoBehaviour
     private void PickUp()
     {
         Debug.Log("Item picked up: " + gameObject.name);
+        ShowReturnMessage();
 
         // increment total pickups
         inventory.itemPickedUp++;
