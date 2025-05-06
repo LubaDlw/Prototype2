@@ -32,6 +32,8 @@ public class PlayerStats : MonoBehaviour
     public GameObject damageEffectPrefab;
 
     GameManagerUI gameManager;
+
+    // Player now loses when counter equals zero or dies
     private void Start()
     {
         maxHealth = 100f;
@@ -77,7 +79,8 @@ public class PlayerStats : MonoBehaviour
             {
                 timeRemaining = 0;
                 isTimerRunning = false;  // Stop the timer once it reaches zero
-                GameWin(); // Show the GameWin panel when the timer reaches zero
+                GameLose();
+               // GameWin(); // Show the GameWin panel when the timer reaches zero
             }
 
             // Update the timer display each frame
@@ -131,7 +134,7 @@ public class PlayerStats : MonoBehaviour
     }
 
     // Method to show the GameWin panel and pause the game
-    void GameWin()
+  public   void GameWin()
     {
         gameWinPanel.SetActive(true);  // Activate the GameWin panel
         Cursor.lockState = CursorLockMode.None;
@@ -144,6 +147,7 @@ public class PlayerStats : MonoBehaviour
     // Method to show the GameLose panel and pause the game
     void GameLose()
     {
+       
         gameLosePanel.SetActive(true); // Activate the GameLose panel
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
