@@ -31,6 +31,15 @@ public class PlayerStats : MonoBehaviour
 
     public GameObject damageEffectPrefab;
 
+    [Header("Mission Settings")]
+public GameObject[] zone2Blockers;  // Assign all blockers to Zone 2 in the Inspector
+public GameObject missionCompletePanel; // UI panel to show when mission is complete
+
+public bool hasCollectedResourcePack = false;
+public int enemiesToKill = 5;  // Adjust per mission
+private bool mission1Complete = false;
+
+
     GameManagerUI gameManager;
 
     // Player now loses when counter equals zero or dies
@@ -70,6 +79,13 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+
+        // Check if mission is completed
+if (!mission1Complete && hasCollectedResourcePack && enemiesKilled >= enemiesToKill)
+{
+    CompleteMission1();
+}
+
         // Timer logic
         if (isTimerRunning)
         {
@@ -153,6 +169,27 @@ public class PlayerStats : MonoBehaviour
         Cursor.visible = true;
         PauseGame(); // Pause the game when the game is lost
     }
+
+    void CompleteMission1()
+{
+    mission1Complete = true;
+
+    // Unlock Zone 2
+    foreach (GameObject blocker in zone2Blockers)
+    {
+        blocker.SetActive(false);
+    }
+
+    // Show mission complete panel
+    if (missionCompletePanel != null)
+    {
+        missionCompletePanel.SetActive(true);
+    }
+
+    // Optional: stop timer or notify player
+    Debug.Log("Mission 1 Complete! Zone 2 Unlocked.");
+}
+
 
     // Method to pause the game
     void PauseGame()

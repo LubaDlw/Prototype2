@@ -4,36 +4,27 @@ using TMPro;
 
 public class PickupItem : MonoBehaviour
 {
-    public GameObject pickupPrompt; // assign in Inspector
+    public GameObject pickupPrompt;         // UI prompt shown when near item
     private bool isPlayerNearby = false;
-    private PlayerInventory inventory;
-    public TMP_Text pickUptxt;
-    public TMP_Text messageText;
+
+    private PlayerInventory inventory;      // Reference to PlayerInventory script
+    private PlayerStats playerStats;        // Reference to PlayerStats script
+
+    public TMP_Text pickUptxt;              // Text for pickup UI prompt
+    public TMP_Text messageText;            // Message text for feedback
+    public TMP_Text resource1Txt;
 
     void Start()
     {
-        // cache reference
-        inventory = GameObject.FindGameObjectWithTag("Player")
-                              .GetComponent<PlayerInventory>();
+        // Cache references to required components
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        inventory = player.GetComponent<PlayerInventory>();
+        playerStats = player.GetComponent<PlayerStats>();
     }
-
-    public void ShowReturnMessage()
-    {
-        StartCoroutine(ShowMessageCoroutine("Item Picked Up, Return To Scientist", 2.5f));
-    }
-
-    private IEnumerator ShowMessageCoroutine(string message, float duration)
-    {
-        messageText.text = message;
-        messageText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(duration);
-        messageText.gameObject.SetActive(false);
-    }
-
-
 
     void Update()
     {
+        // Check for pickup interaction
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
         {
             if (inventory.HeldItemCount == 0)
@@ -51,15 +42,27 @@ public class PickupItem : MonoBehaviour
     private void PickUp()
     {
         Debug.Log("Item picked up: " + gameObject.name);
-        ShowReturnMessage();
 
-        // increment total pickups
+        // Show pickup message
+        ShowReturnMessage();
+        resource1Txt.color = Color.green;
+
+        // Update inventory count
         inventory.itemPickedUp++;
 
-        // hide prompt and destroy item
-        if (pickupPrompt != null)
-            pickupPrompt.SetActive(false);
+        // Inform PlayerStats for mission tracking
+        if (playerStats != null)
+        {
+            playerStats.hasCollectedResourcePack = true;
+        }
 
+        // Hide pickup prompt
+        if (pickupPrompt != null)
+        {
+            pickupPrompt.SetActive(false);
+        }
+
+        // Destroy the item from the scene
         Destroy(gameObject);
     }
 
@@ -69,9 +72,11 @@ public class PickupItem : MonoBehaviour
         {
             isPlayerNearby = true;
 
-            // only show prompt if not holding an item
+            // Show prompt only if player is not holding something
             if (pickupPrompt != null && inventory.HeldItemCount == 0)
+            {
                 pickupPrompt.SetActive(true);
+            }
         }
     }
 
@@ -81,8 +86,25 @@ public class PickupItem : MonoBehaviour
         {
             isPlayerNearby = false;
 
+            // Hide pickup prompt
             if (pickupPrompt != null)
+            {
                 pickupPrompt.SetActive(false);
+            }
         }
+    }
+
+    // Coroutine to show message for a few seconds
+    public void ShowReturnMessage()
+    {
+        StartCoroutine(ShowMessageCoroutine("Item Picked Up, Return To Scientist", 2.5f));
+    }
+
+    private IEnumerator ShowMessageCoroutine(string message, float duration)
+    {
+        messageText.text = message;
+        messageText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(duration);
+        messageText.gameObject.SetActive(false);
     }
 }
