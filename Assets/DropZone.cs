@@ -8,12 +8,17 @@ public class DropZone : MonoBehaviour
     public TMP_Text dropZonetxt;
     //private DropZone dropZone;
     private PickupItem pickUpItem;
+    private PlayerStats playerStats;
+
+    public TMP_Text resource1Txt;
     
 
     void Start()
     {
         inventory = GameObject.FindGameObjectWithTag("Player")
                               .GetComponent<PlayerInventory>();
+                              
+        playerStats = GameObject.FindObjectOfType<PlayerStats>();
 
         //dropZone = FindObjectofType<DropZone>();
         pickUpItem = FindObjectOfType<PickupItem>();
@@ -34,8 +39,13 @@ public class DropZone : MonoBehaviour
                 pickUpItem.messageText.text = " ";
                 Debug.Log("Dropped an item. Total dropped: " + inventory.dropItems);
                 dropZonetxt.text = inventory.dropItems + "/5";
+                
+if (playerStats != null)
+        {
+            playerStats.hasCollectedResourcePack = true;
+        }
 
-
+  resource1Txt.color = Color.green;
                 // dropZonetxt.text = "Dropped an item. Total dropped: " + inventory.dropItems.ToString();
                 // dropZonetxt.SetActive(false);
             }
@@ -43,6 +53,8 @@ public class DropZone : MonoBehaviour
             {
                 Debug.Log("No items to drop!");
             }
+
+
         }
     }
 

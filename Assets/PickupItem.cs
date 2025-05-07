@@ -12,7 +12,7 @@ public class PickupItem : MonoBehaviour
 
     public TMP_Text pickUptxt;              // Text for pickup UI prompt
     public TMP_Text messageText;            // Message text for feedback
-    public TMP_Text resource1Txt;
+    //public TMP_Text resource1Txt;
 
     void Start()
     {
@@ -45,16 +45,17 @@ public class PickupItem : MonoBehaviour
 
         // Show pickup message
         ShowReturnMessage();
-        resource1Txt.color = Color.green;
+      
+        //Ruturn to scientist logic
 
         // Update inventory count
         inventory.itemPickedUp++;
 
         // Inform PlayerStats for mission tracking
-        if (playerStats != null)
+       /* if (playerStats != null)
         {
             playerStats.hasCollectedResourcePack = true;
-        }
+        }*/
 
         // Hide pickup prompt
         if (pickupPrompt != null)

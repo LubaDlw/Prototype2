@@ -3311,7 +3311,6 @@ MonoBehaviour:
   pickupPrompt: {fileID: 708580612}
   pickUptxt: {fileID: 0}
   messageText: {fileID: 1261185275}
-  resource1Txt: {fileID: 0}
 --- !u!65 &298663928
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5067,7 +5066,6 @@ MonoBehaviour:
   pickupPrompt: {fileID: 708580612}
   pickUptxt: {fileID: 0}
   messageText: {fileID: 1261185275}
-  resource1Txt: {fileID: 0}
 --- !u!65 &391011907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7831,7 +7829,6 @@ MonoBehaviour:
   pickupPrompt: {fileID: 708580612}
   pickUptxt: {fileID: 0}
   messageText: {fileID: 1261185275}
-  resource1Txt: {fileID: 0}
 --- !u!65 &587781606
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8788,7 +8785,6 @@ MonoBehaviour:
   pickupPrompt: {fileID: 708580612}
   pickUptxt: {fileID: 0}
   messageText: {fileID: 1261185275}
-  resource1Txt: {fileID: 0}
 --- !u!65 &639360190
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16854,6 +16850,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropZonetxt: {fileID: 1470648023}
+  resource1Txt: {fileID: 1290099598}
 --- !u!1001 &1115089822
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19883,7 +19880,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Collect Resource 1
+  m_text: Collect Resource 1 & Return To Scientist
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20880,7 +20877,6 @@ MonoBehaviour:
   pickupPrompt: {fileID: 708580612}
   pickUptxt: {fileID: 0}
   messageText: {fileID: 1261185275}
-  resource1Txt: {fileID: 1290099598}
 --- !u!65 &1370476955
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21903,7 +21899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 855, y: 254}
+  m_AnchoredPosition: {x: 855, y: 236}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444966238
@@ -29090,6 +29086,14 @@ PrefabInstance:
       propertyPath: waveNotificationTxt
       value: 
       objectReference: {fileID: 1484207743}
+    - target: {fileID: 5904710645441754129, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
+      propertyPath: killEnemyMissionText
+      value: 
+      objectReference: {fileID: 1444966238}
+    - target: {fileID: 5904710645441754129, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
+      propertyPath: collectItemMissionText
+      value: 
+      objectReference: {fileID: 1290099598}
     - target: {fileID: 6442767633563380071, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
       propertyPath: m_Name
       value: Player
