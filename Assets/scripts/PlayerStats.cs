@@ -47,6 +47,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Start()
     {
+         Time.timeScale = 1;
         maxHealth = 100f;
         waveNotificationTxt.text = "";
         health = 100;
@@ -175,6 +176,8 @@ public class PlayerStats : MonoBehaviour
     void CompleteMission1()
     {
         mission1Complete = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
         foreach (GameObject blocker in zone2Blockers)
         {
@@ -184,6 +187,10 @@ public class PlayerStats : MonoBehaviour
         if (missionCompletePanel != null)
         {
             missionCompletePanel.SetActive(true);
+            //set checkpoint
+            // Set New Missions
+            //New Resource Text
+            //COllect Item 2
         }
 
         Debug.Log("Mission 1 Complete! Zone 2 Unlocked.");

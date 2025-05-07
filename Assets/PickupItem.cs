@@ -12,7 +12,7 @@ public class PickupItem : MonoBehaviour
 
     public TMP_Text pickUptxt;              // Text for pickup UI prompt
     public TMP_Text messageText;            // Message text for feedback
-    //public TMP_Text resource1Txt;
+   // public TMP_Text resource1Txt;
 
     void Start()
     {

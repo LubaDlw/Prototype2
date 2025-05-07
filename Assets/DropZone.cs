@@ -5,28 +5,16 @@ public class DropZone : MonoBehaviour
 {
     private bool isPlayerInZone = false;
     private PlayerInventory inventory;
-    public TMP_Text dropZonetxt;
-    //private DropZone dropZone;
-    private PickupItem pickUpItem;
     private PlayerStats playerStats;
+    public TMP_Text dropZonetxt;
 
     public TMP_Text resource1Txt;
-    
 
     void Start()
     {
-        inventory = GameObject.FindGameObjectWithTag("Player")
-                              .GetComponent<PlayerInventory>();
-                              
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
         playerStats = GameObject.FindObjectOfType<PlayerStats>();
-
-        //dropZone = FindObjectofType<DropZone>();
-        pickUpItem = FindObjectOfType<PickupItem>();
-       // dropZonetxt.SetActive(false);
     }
-
-    
-
 
     void Update()
     {
@@ -35,31 +23,27 @@ public class DropZone : MonoBehaviour
             if (inventory.HeldItemCount > 0)
             {
                 inventory.dropItems++;
-                //  dropZonetxt.SetActive(true);
-                pickUpItem.messageText.text = " ";
+               // resource1Txt.text = " ";
                 Debug.Log("Dropped an item. Total dropped: " + inventory.dropItems);
                 dropZonetxt.text = inventory.dropItems + "/5";
                 
-if (playerStats != null)
-        {
-            playerStats.hasCollectedResourcePack = true;
-        }
+                // Update mission progress
+                if (playerStats != null)
+                {
+                    playerStats.hasCollectedResourcePack = true;
+                }
 
-  resource1Txt.color = Color.green;
-                // dropZonetxt.text = "Dropped an item. Total dropped: " + inventory.dropItems.ToString();
-                // dropZonetxt.SetActive(false);
+                // Update Resource 1 UI text to green
+                resource1Txt.color = Color.green;
+
+                // Additional logic for next steps if needed (e.g., mission progress)
             }
             else
             {
                 Debug.Log("No items to drop!");
             }
-
-
         }
     }
-
-   // public IEnume
-   
 
     private void OnTriggerEnter(Collider other)
     {

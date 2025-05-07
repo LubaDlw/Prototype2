@@ -6,15 +6,26 @@ public class GameManagerUI : MonoBehaviour
     public GameObject panel1; // Start panel
     public GameObject panel2; // How to play panel
     public GameObject panel3; // Final panel
+
+    public GameObject LevelPanel;
     public bool gameOver = false;
 
     void Start()
     {
+         Time.timeScale = 1;
          gameOver = false;
     // ShowPanel1(); // Show the first panel on game start
     panel1.SetActive(false);
         panel2.SetActive(false);
         panel3.SetActive(false);
+    }
+
+    public void level()
+    {
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        LevelPanel.SetActive(false);
     }
 
     public void ShowPanel1()
