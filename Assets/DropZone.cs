@@ -7,6 +7,7 @@ public class DropZone : MonoBehaviour
     private PlayerInventory inventory;
     private PlayerStats playerStats;
     public TMP_Text dropZonetxt;
+    public TMP_Text pickedUptxt;
 
     public TMP_Text resource1Txt;
 
@@ -25,6 +26,7 @@ public class DropZone : MonoBehaviour
                 inventory.dropItems++;
                // resource1Txt.text = " ";
                 Debug.Log("Dropped an item. Total dropped: " + inventory.dropItems);
+                pickedUptxt.text = " " ;
                 dropZonetxt.text = inventory.dropItems + "/5";
                 
                 // Update mission progress

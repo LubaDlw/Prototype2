@@ -36,7 +36,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject missionCompletePanel;
 
     public bool hasCollectedResourcePack = false;
-    public int enemiesToKill = 5;
+    public int enemiesToKill = 8;
     private bool mission1Complete = false;
    private bool  mission2Complete = false;
 
@@ -46,12 +46,15 @@ public class PlayerStats : MonoBehaviour
     //public TMP_Text collectItemMission4;
     public TMP_Text collectItemMission5;
 
+    public TMP_Text collectmission3;
+
     private bool enemyKillObjectiveComplete = false;
     private bool resourceObjectiveComplete = false;
 
     private void Start()
-    {
+    {enemiesToKill = 8;
         collectItemMission5.text = " ";
+        collectmission3.text = " ";
          Time.timeScale = 1;
         maxHealth = 100f;
         waveNotificationTxt.text = "";
@@ -201,18 +204,20 @@ void CompleteMission2()
         {
             missionCompletePanel.SetActive(true);
             //mission1Complete = false;
-            enemiesToKill = 20;
+            enemiesToKill = 24;
             enemyKillObjectiveComplete = false;
             resourceObjectiveComplete = false;
            // !mission1Complete && enemyKillObjectiveComplete && resourceObjectiveComplete
             //set checkpoint
             // Set New Missions
             //New Resource Text
-            collectItemMissionText.text = "Find Resource 4 and Return to Scientist";
+            collectItemMissionText.text = "Find Resource 3 and Return to Scientist";
              //Set text 3 Active
            // collectItemMission5.SetActive(true);
             collectItemMission5.color = Color.white;
-            collectItemMission5.text = "Find Resource 5 and Return to Scientist";
+            collectItemMission5.text = "Find Resource 4 and Return to Scientist";
+            collectmission3.text = " Find Resource 5 and Return to Scientist";
+            collectmission3.color = Color.white;
             collectItemMissionText.color = Color.white;
             killEnemyMissionText.text = "Kill 15 Zombies";
             killEnemyMissionText.color = Color.white;
@@ -238,7 +243,7 @@ void CompleteMission2()
         {
             missionCompletePanel.SetActive(true);
             //mission1Complete = false;
-            enemiesToKill = 10;
+            enemiesToKill = 16;
             enemyKillObjectiveComplete = false;
             resourceObjectiveComplete = false;
            // !mission1Complete && enemyKillObjectiveComplete && resourceObjectiveComplete
@@ -251,7 +256,7 @@ void CompleteMission2()
             //Set text 3 Active
             
             collectItemMission5.color = Color.white;
-            collectItemMission5.text = "Find Resource 3 and Return to Scientist";
+            collectItemMission5.text = " ";
             collectItemMissionText.color = Color.white;
             killEnemyMissionText.text = "Kill 10 Zombies";
             killEnemyMissionText.color = Color.white;
