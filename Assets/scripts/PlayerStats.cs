@@ -32,21 +32,26 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Mission Settings")]
     public GameObject[] zone2Blockers;
+    public GameObject[] zone3Blockers;
     public GameObject missionCompletePanel;
 
     public bool hasCollectedResourcePack = false;
     public int enemiesToKill = 5;
     private bool mission1Complete = false;
+   private bool  mission2Complete = false;
 
-    [Header("Mission UI")]
+    [Header("Mission UI")]  //Change upon newLevel
     public TMP_Text killEnemyMissionText;
     public TMP_Text collectItemMissionText;
+    //public TMP_Text collectItemMission4;
+    public TMP_Text collectItemMission5;
 
     private bool enemyKillObjectiveComplete = false;
     private bool resourceObjectiveComplete = false;
 
     private void Start()
     {
+        collectItemMission5.text = " ";
          Time.timeScale = 1;
         maxHealth = 100f;
         waveNotificationTxt.text = "";
@@ -103,6 +108,13 @@ public class PlayerStats : MonoBehaviour
         {
             CompleteMission1();
             Debug.Log("MISSION COMPLETE: Resource collected and 5 enemies killed.");
+        }
+
+//check mission 2
+        if(mission1Complete && enemiesKilled >= enemiesToKill && !mission2Complete && resourceObjectiveComplete) 
+        {
+            Debug.Log("Mission 2 Underway");
+            CompleteMission2();
         }
 
         // Timer logic
@@ -172,9 +184,47 @@ public class PlayerStats : MonoBehaviour
         Cursor.visible = true;
         PauseGame();
     }
+void CompleteMission2()
+{
+    hasCollectedResourcePack = false;
+    //level3
+    mission2Complete = true;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
 
+        foreach (GameObject blocker in zone3Blockers)
+        {
+            blocker.SetActive(false);
+        }
+
+        if (missionCompletePanel != null)
+        {
+            missionCompletePanel.SetActive(true);
+            //mission1Complete = false;
+            enemiesToKill = 20;
+            enemyKillObjectiveComplete = false;
+            resourceObjectiveComplete = false;
+           // !mission1Complete && enemyKillObjectiveComplete && resourceObjectiveComplete
+            //set checkpoint
+            // Set New Missions
+            //New Resource Text
+            collectItemMissionText.text = "Find Resource 4 and Return to Scientist";
+             //Set text 3 Active
+           // collectItemMission5.SetActive(true);
+            collectItemMission5.color = Color.white;
+            collectItemMission5.text = "Find Resource 5 and Return to Scientist";
+            collectItemMissionText.color = Color.white;
+            killEnemyMissionText.text = "Kill 15 Zombies";
+            killEnemyMissionText.color = Color.white;
+            //COllect Item 2
+        }
+
+        Debug.Log("Mission 2 Complete! Zone 3 Unlocked.");
+        //mission1Complete = false;
+}
     void CompleteMission1()
     {
+        hasCollectedResourcePack = false;
         mission1Complete = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -187,13 +237,29 @@ public class PlayerStats : MonoBehaviour
         if (missionCompletePanel != null)
         {
             missionCompletePanel.SetActive(true);
+            //mission1Complete = false;
+            enemiesToKill = 10;
+            enemyKillObjectiveComplete = false;
+            resourceObjectiveComplete = false;
+           // !mission1Complete && enemyKillObjectiveComplete && resourceObjectiveComplete
             //set checkpoint
             // Set New Missions
             //New Resource Text
+
+            // This is level 2
+            collectItemMissionText.text = "Find Resource 2 and Return to Scientist";
+            //Set text 3 Active
+            
+            collectItemMission5.color = Color.white;
+            collectItemMission5.text = "Find Resource 3 and Return to Scientist";
+            collectItemMissionText.color = Color.white;
+            killEnemyMissionText.text = "Kill 10 Zombies";
+            killEnemyMissionText.color = Color.white;
             //COllect Item 2
         }
 
         Debug.Log("Mission 1 Complete! Zone 2 Unlocked.");
+        //mission1Complete = false;
     }
 
     void PauseGame()
