@@ -41,6 +41,12 @@ public class DropZone : MonoBehaviour
                 {
 playerStats.collectItemMission5.color = Color.green;
                 }
+
+                  if(inventory.dropItems == 5)
+                {
+playerStats.collectmission3.color = Color.green;
+                }
+                
                 
                 
 
