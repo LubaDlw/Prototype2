@@ -114,7 +114,8 @@ public class EnemyAI : MonoBehaviour
 
         if (health <= 0)
         {
-            playerStats.enemiesKilled += 1;
+            playerStats.enemiesKilled ++;
+            //playerStats.displayCorrectUI();
             Destroy(gameObject);
         }
     }

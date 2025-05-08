@@ -85,7 +85,11 @@ public class PlayerStats : MonoBehaviour
         yield return new WaitForSeconds(2f);
         waveNotificationTxt.text = "";
     }
-
+    
+    public void displayCorrectUI()
+    {
+        enemiesKilled = enemiesKilled/2;
+    }
     private void Update()
     {
         // Update kill count text
@@ -219,7 +223,7 @@ void CompleteMission2()
             collectmission3.text = " Find Resource 5 and Return to Scientist";
             collectmission3.color = Color.white;
             collectItemMissionText.color = Color.white;
-            killEnemyMissionText.text = "Kill 15 Zombies";
+            killEnemyMissionText.text = "Kill 24 Zombies";
             killEnemyMissionText.color = Color.white;
             //COllect Item 2
         }
@@ -258,7 +262,7 @@ void CompleteMission2()
             collectItemMission5.color = Color.white;
             collectItemMission5.text = " ";
             collectItemMissionText.color = Color.white;
-            killEnemyMissionText.text = "Kill 10 Zombies";
+            killEnemyMissionText.text = "Kill 16 Zombies";
             killEnemyMissionText.color = Color.white;
             //COllect Item 2
         }
