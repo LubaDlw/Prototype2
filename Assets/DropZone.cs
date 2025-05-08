@@ -37,6 +37,12 @@ public class DropZone : MonoBehaviour
 
                 // Update Resource 1 UI text to green
                 resource1Txt.color = Color.green;
+                if(inventory.dropItems == 4)
+                {
+playerStats.collectItemMission5.color = Color.green;
+                }
+                
+                
 
                 // Additional logic for next steps if needed (e.g., mission progress)
             }
