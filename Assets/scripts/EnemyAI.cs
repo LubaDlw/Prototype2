@@ -14,6 +14,11 @@ public class EnemyAI : MonoBehaviour
     public float attackCooldown = 1f;
     private float lastAttackTime = 0f;
     
+    [Header("Patrol Settings")]
+    public float patrolRadius = 15f; // How far from spawn point to patrol
+    public float patrolWaitTime = 2f; // Time to wait at each patrol point
+    public float patrolSpeed = 2f; // Speed when patrolling (slower than chase)
+    
     [Header("References")]
     public Transform player;
     public GameObject bloodSplatterPrefab;
@@ -33,10 +38,17 @@ public class EnemyAI : MonoBehaviour
     private CharacterControllerMovement playerMovement;
     private PlayerStats playerStats;
     
+    // Patrol system variables
+    private Vector3 spawnPoint;
+    private Vector3 currentPatrolTarget;
+    private bool isChasing = false;
+    private float patrolWaitTimer = 0f;
+    private bool isWaitingAtPatrol = false;
+    
     // Add these for better movement control
     private Vector3 lastPlayerPosition;
     private float stuckTimer = 0f;
-    private float stuckThreshold = 2f; // Time before considering enemy "stuck"
+    private float stuckThreshold = 2f;
     private Vector3 lastPosition;
 
     void Start()
@@ -47,6 +59,9 @@ public class EnemyAI : MonoBehaviour
 
         agent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
+
+        // Store spawn point for patrol system
+        spawnPoint = transform.position;
 
         // Find player if not assigned
         if (player == null)
@@ -63,36 +78,34 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // Configure NavMeshAgent for optimal performance
             ConfigureNavMeshAgent();
         }
 
-        // Set up audio
         SetupAudio();
         
         // Initialize tracking variables
         lastPosition = transform.position;
         if (playerMovement != null)
             lastPlayerPosition = playerMovement.transform.position;
+            
+        // Start patrolling immediately
+        SetNewPatrolTarget();
     }
 
     void ConfigureNavMeshAgent()
     {
         if (agent == null) return;
         
-        agent.speed = speed;
-        agent.acceleration = 12f; // Higher acceleration for snappier movement
-        agent.angularSpeed = 450f; // Even faster turning
-        agent.stoppingDistance = attackRange * 0.7f; // Closer stopping distance
+        agent.speed = patrolSpeed; // Start with patrol speed
+        agent.acceleration = 12f;
+        agent.angularSpeed = 450f;
+        agent.stoppingDistance = 1f; // Larger stopping distance for patrol points
         
-        // These settings help prevent slow movement
-        agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance; // Faster processing
-        agent.avoidancePriority = 50; // Medium priority
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.LowQualityObstacleAvoidance;
+        agent.avoidancePriority = 50;
+        agent.autoBraking = true; // Enable for smoother patrol stops
         
-        // Ensure the agent isn't being slowed down by default settings
-        agent.autoBraking = false; // This can cause slowdowns near destination
-        
-        Debug.Log($"NavMeshAgent configured - Speed: {agent.speed}, Acceleration: {agent.acceleration}");
+        Debug.Log($"NavMeshAgent configured - Patrol Speed: {patrolSpeed}, Chase Speed: {speed}");
     }
 
     void SetupAudio()
@@ -110,116 +123,194 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        if (isDead || agent == null || playerMovement == null)
+        if (isDead || agent == null)
             return;
 
-        HandleMovementAndAttack();
+        CheckPlayerDetection();
+        HandleMovementBehavior();
         HandleAudio();
         CheckIfStuck();
     }
 
-    void HandleMovementAndAttack()
+    void CheckPlayerDetection()
     {
+        if (playerMovement == null) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerMovement.transform.position);
+        bool playerInRange = distanceToPlayer <= detectionRange;
+
+        // Switch between chase and patrol modes
+        if (playerInRange && !isChasing)
+        {
+            // Start chasing
+            isChasing = true;
+            isWaitingAtPatrol = false;
+            agent.speed = speed; // Switch to chase speed
+            agent.stoppingDistance = attackRange * 0.7f;
+            agent.autoBraking = false; // More aggressive movement when chasing
+            Debug.Log("Enemy started chasing player");
+        }
+        else if (!playerInRange && isChasing)
+        {
+            // Stop chasing, return to patrol
+            isChasing = false;
+            agent.speed = patrolSpeed; // Switch back to patrol speed
+            agent.stoppingDistance = 1f;
+            agent.autoBraking = true; // Smoother patrol movement
+            SetNewPatrolTarget(); // Get new patrol destination
+            Debug.Log("Enemy lost player, returning to patrol");
+        }
+    }
+
+    void HandleMovementBehavior()
+    {
+        if (isChasing)
+        {
+            HandleChasing();
+        }
+        else
+        {
+            HandlePatrolling();
+        }
+    }
+
+    void HandleChasing()
+    {
+        if (playerMovement == null) return;
+
         Vector3 playerPosition = playerMovement.transform.position;
         float distance = Vector3.Distance(transform.position, playerPosition);
 
-        if (distance <= detectionRange)
+        if (distance > attackRange)
         {
-            // Always ensure agent is not stopped when chasing
-            if (distance > attackRange)
-            {
-                agent.isStopped = false;
-                
-                // More frequent path updates for better tracking
-                bool shouldUpdatePath = Vector3.Distance(lastPlayerPosition, playerPosition) > 0.5f || 
-                                       !agent.hasPath || 
-                                       agent.pathStatus != NavMeshPathStatus.PathComplete ||
-                                       agent.remainingDistance < 0.5f; // Update if close to current destination
+            // Chase the player
+            agent.isStopped = false;
+            
+            // Update path frequently when chasing
+            bool shouldUpdatePath = Vector3.Distance(lastPlayerPosition, playerPosition) > 0.5f || 
+                                   !agent.hasPath || 
+                                   agent.pathStatus != NavMeshPathStatus.PathComplete ||
+                                   agent.remainingDistance < 0.5f;
 
-                if (shouldUpdatePath)
-                {
-                    // Set destination with slight prediction for moving targets
-                    Vector3 predictedPosition = playerPosition;
-                    
-                    // Try to predict where player will be
-                    if (playerMovement != null)
-                    {
-                        Vector3 playerVelocity = (playerPosition - lastPlayerPosition) / Time.deltaTime;
-                        if (playerVelocity.magnitude > 1f) // Only predict if player is moving fast enough
-                        {
-                            predictedPosition += playerVelocity * 0.5f; // Predict 0.5 seconds ahead
-                        }
-                    }
-                    
-                    agent.SetDestination(predictedPosition);
-                    lastPlayerPosition = playerPosition;
-                }
-                
-                // Force speed if agent seems to be slowing down
-                if (agent.velocity.magnitude < speed * 0.7f && agent.hasPath)
-                {
-                    // Agent might be slowing down unnecessarily, force it to maintain speed
-                    agent.speed = speed * 1.1f; // Slightly boost speed temporarily
-                }
-                else
-                {
-                    agent.speed = speed; // Reset to normal speed
-                }
-            }
-            else
+            if (shouldUpdatePath)
             {
-                // In attack range - handle combat
-                agent.isStopped = true;
-                
-                // Face the player
-                Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
-                directionToPlayer.y = 0; // Keep on horizontal plane
-                if (directionToPlayer != Vector3.zero)
+                // Predict player movement for better chasing
+                Vector3 predictedPosition = playerPosition;
+                Vector3 playerVelocity = (playerPosition - lastPlayerPosition) / Time.deltaTime;
+                if (playerVelocity.magnitude > 1f)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, 
-                        Quaternion.LookRotation(directionToPlayer), Time.deltaTime * 8f);
+                    predictedPosition += playerVelocity * 0.5f;
                 }
                 
-                // Attack if cooldown is over
-                if (Time.time >= lastAttackTime + attackCooldown)
-                {
-                    AttackPlayer();
-                    lastAttackTime = Time.time;
-                }
+                agent.SetDestination(predictedPosition);
+                lastPlayerPosition = playerPosition;
             }
         }
         else
         {
-            // Out of detection range - stop moving
+            // In attack range
             agent.isStopped = true;
-            agent.ResetPath();
+            
+            // Face the player
+            Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+            directionToPlayer.y = 0;
+            if (directionToPlayer != Vector3.zero)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, 
+                    Quaternion.LookRotation(directionToPlayer), Time.deltaTime * 8f);
+            }
+            
+            // Attack if cooldown is over
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                AttackPlayer();
+                lastAttackTime = Time.time;
+            }
+        }
+    }
+
+    void HandlePatrolling()
+    {
+        // Handle waiting at patrol points
+        if (isWaitingAtPatrol)
+        {
+            patrolWaitTimer -= Time.deltaTime;
+            if (patrolWaitTimer <= 0f)
+            {
+                isWaitingAtPatrol = false;
+                SetNewPatrolTarget();
+            }
+            return;
+        }
+
+        // Check if we've reached the patrol target
+        if (!agent.pathPending && agent.remainingDistance < 1.5f)
+        {
+            // Reached patrol point, start waiting
+            isWaitingAtPatrol = true;
+            patrolWaitTimer = patrolWaitTime;
+            agent.isStopped = true;
+        }
+        else
+        {
+            // Continue moving to patrol target
+            agent.isStopped = false;
+        }
+    }
+
+    void SetNewPatrolTarget()
+    {
+        // Generate a random point within patrol radius of spawn point
+        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+        randomDirection += spawnPoint;
+        
+        // Make sure the point is on the NavMesh
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, 1))
+        {
+            currentPatrolTarget = hit.position;
+            agent.SetDestination(currentPatrolTarget);
+            agent.isStopped = false;
+            Debug.Log($"Enemy set new patrol target: {currentPatrolTarget}");
+        }
+        else
+        {
+            // If no valid point found, just move towards spawn point
+            currentPatrolTarget = spawnPoint;
+            agent.SetDestination(currentPatrolTarget);
+            agent.isStopped = false;
+            Debug.Log("Enemy patrolling back to spawn point");
         }
     }
 
     void CheckIfStuck()
     {
-        // Check if enemy is stuck (not moving for too long while trying to move)
-        if (!agent.isStopped && agent.hasPath)
+        // Only check for stuck when actually trying to move
+        if (!agent.isStopped && agent.hasPath && !isWaitingAtPatrol)
         {
             float distanceMoved = Vector3.Distance(transform.position, lastPosition);
             
-            if (distanceMoved < 0.1f) // Very small movement
+            if (distanceMoved < 0.1f)
             {
                 stuckTimer += Time.deltaTime;
                 
                 if (stuckTimer >= stuckThreshold)
                 {
-                    // Try to unstuck by recalculating path or moving slightly
-                    Debug.Log("Enemy appears stuck, recalculating path");
+                    Debug.Log("Enemy appears stuck, finding new path");
                     agent.ResetPath();
                     
-                    // Add a small random offset to destination to avoid getting stuck in same spot
-                    if (playerMovement != null)
+                    if (isChasing && playerMovement != null)
                     {
-                        Vector3 randomOffset = Random.insideUnitSphere * 2f;
+                        // When chasing, try a different approach to player
+                        Vector3 randomOffset = Random.insideUnitSphere * 3f;
                         randomOffset.y = 0;
                         Vector3 newDestination = playerMovement.transform.position + randomOffset;
                         agent.SetDestination(newDestination);
+                    }
+                    else
+                    {
+                        // When patrolling, get a new patrol target
+                        SetNewPatrolTarget();
                     }
                     
                     stuckTimer = 0f;
@@ -227,7 +318,7 @@ public class EnemyAI : MonoBehaviour
             }
             else
             {
-                stuckTimer = 0f; // Reset timer if moving normally
+                stuckTimer = 0f;
             }
         }
         else
@@ -243,10 +334,9 @@ public class EnemyAI : MonoBehaviour
         if (audioSource == null || movementClip == null)
             return;
 
-        // Check if enemy is moving (better detection)
-        isMoving = !agent.isStopped && agent.velocity.magnitude > 0.1f && agent.hasPath;
+        // Check if enemy is moving (excluding waiting periods)
+        isMoving = !agent.isStopped && agent.velocity.magnitude > 0.1f && agent.hasPath && !isWaitingAtPatrol;
 
-        // Play or stop movement sound
         if (isMoving && !audioSource.isPlaying)
         {
             audioSource.Play();
@@ -264,7 +354,6 @@ public class EnemyAI : MonoBehaviour
             Debug.Log($"Enemy attacking player for {damageAmount} damage!");
             playerStats.dealDamage(damageAmount);
             
-            // Play collision sound
             if (audioSource != null && collisionClip != null)
             {
                 audioSource.PlayOneShot(collisionClip);
@@ -278,7 +367,6 @@ public class EnemyAI : MonoBehaviour
 
         if (collision.collider.CompareTag("Player"))
         {
-            // Attack on collision (immediate damage)
             if (Time.time >= lastAttackTime + attackCooldown)
             {
                 AttackPlayer();
@@ -290,16 +378,12 @@ public class EnemyAI : MonoBehaviour
         {
             Debug.Log("Enemy hit by projectile");
             
-            // Show blood effect
             if (collision.contacts.Length > 0)
             {
                 ShowBloodSplatter(collision.contacts[0].point);
             }
             
-            // Take damage
-            TakeDamage(3); // Standardized projectile damage
-            
-            // Destroy the projectile
+            TakeDamage(3);
             Destroy(collision.gameObject);
         }
     }
@@ -322,23 +406,19 @@ public class EnemyAI : MonoBehaviour
         if (isDead) return;
         
         isDead = true;
-        
         Debug.Log("Enemy died!");
 
-        // Update player stats
         if (playerStats != null)
         {
             playerStats.enemiesKilled++;
-            playerStats.coins += 4; // Reward for killing an enemy
+            playerStats.coins += 4;
         }
         
-        // Play death sound
         if (audioSource != null && deathClip != null)
         {
             audioSource.PlayOneShot(deathClip);
         }
         
-        // Stop movement
         if (agent != null)
         {
             agent.isStopped = true;
@@ -346,7 +426,6 @@ public class EnemyAI : MonoBehaviour
             agent.enabled = false;
         }
         
-        // Destroy after a brief delay (allows death sound to play)
         Destroy(gameObject, 0.5f);
     }
 
@@ -355,13 +434,11 @@ public class EnemyAI : MonoBehaviour
         if (bloodSplatterPrefab != null)
         {
             GameObject splatter = Instantiate(bloodSplatterPrefab, hitPoint, Quaternion.identity);
-            
-            // Auto-destroy blood splatter after some time
             Destroy(splatter, 5f);
         }
     }
 
-    // Public methods for external use
+    // Public methods
     public bool IsAlive()
     {
         return !isDead;
@@ -374,27 +451,28 @@ public class EnemyAI : MonoBehaviour
 
     public void SetWaveMultipliers(int waveNumber)
     {
-        // Scale enemy based on wave number
         health = maxHealth + (waveNumber - 1) * 2;
         maxHealth = health;
         
         speed = 3f + (waveNumber * 0.3f);
+        patrolSpeed = 2f + (waveNumber * 0.2f); // Scale patrol speed too
         
-        // Update NavMeshAgent speed properly and reconfigure for new wave
         if (agent != null)
         {
-            agent.speed = speed;
-            // Reconfigure other settings that might affect movement speed
-            ConfigureNavMeshAgent();
+            // Update current speed based on current state
+            if (isChasing)
+                agent.speed = speed;
+            else
+                agent.speed = patrolSpeed;
         }
         
-        // Increase detection range slightly
         detectionRange = 10f + (waveNumber * 0.5f);
+        patrolRadius = 15f + (waveNumber * 1f); // Larger patrol area in later waves
         
-        Debug.Log($"Enemy configured for wave {waveNumber}: Health={health}, Speed={speed:F1}");
+        Debug.Log($"Enemy configured for wave {waveNumber}: Health={health}, Chase Speed={speed:F1}, Patrol Speed={patrolSpeed:F1}");
     }
 
-    // Gizmos for debugging
+    // Debug visualization
     private void OnDrawGizmosSelected()
     {
         // Draw detection range
@@ -405,11 +483,17 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         
-        // Draw stopping distance
-        if (agent != null)
+        // Draw patrol radius around spawn point
+        Gizmos.color = Color.green;
+        Vector3 spawn = Application.isPlaying ? spawnPoint : transform.position;
+        Gizmos.DrawWireSphere(spawn, patrolRadius);
+        
+        // Draw current patrol target
+        if (Application.isPlaying && !isChasing)
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, agent.stoppingDistance);
+            Gizmos.DrawWireSphere(currentPatrolTarget, 1f);
+            Gizmos.DrawLine(transform.position, currentPatrolTarget);
         }
     }
 }

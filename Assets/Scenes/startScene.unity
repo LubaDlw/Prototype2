@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &18967985
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1506,12 +1506,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The world as you knew it is gone.\n\nAsh covers the ruins of once-great
-    cities. Silence fills the streets where life used to thrive. Survivors are few,
-    and hope is even rarer.\n\nYou\u2019re one of the last. \n\nSave Dr Kalitz by
-    finding the ingredients for the anecdote.\n\nNo reinforcements. No backup. Just
-    instinct, grit, and a will to live.\n\nThis is the fight for your life.\nThis
-    is survival."
+  m_text: "The world as you once knew it is gone.\r\n\r\nAsh blankets the ruins of
+    once-great cities. Silence hangs heavy in streets that now host only the dead,
+    and the relentless tide of what\u2019s left of humanity\u2019s nightmares.\r\n\r\nSurvival
+    comes in waves.\r\n\r\nYou hear its roar on the horizon: one wave crashes, and
+    you endure. Then another, stronger, fiercer, relentless in its hunger. Each wave
+    tests your resolve, your skill, your will to live.\r\n\r\nYou\u2019re one of
+    the last.\r\n\r\nTo save Dr. Kalitz, you must ride the storm of enemies and gather
+    the rare ingredients for her antidote between surges. No reinforcements. No second
+    chances. Only your grit, your instinct, and the ticking clock of each incoming
+    wave.\r\n\r\nThis is more than a fight for your life.\r\n\r\nThis is survival.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1957,7 +1961,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "DIGA3001A - PROTOTYPE 4 \nlUBABALO dlWATHI"
+  m_text: DIGA3001A - exam Lubabalo dlwathi
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -2091,12 +2095,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your objective is simple:\nSave Dr Kalitz and survive till the final wave
-    to restore humanity\n\nYou can shoot your way through, but ammunition is limited.
-    Every bullet must count.\nYou can run, dodge, or hide \u2014 use the world around
-    you.\nYou\u2019ll find supplies scattered through the ruins \u2014 health packs
-    and ammo. Grab them when you can.\n\nEvery choice could mean life or death.\nKeep
-    moving. Keep breathing."
+  m_text: "Your objective is simple:\r\nSave Dr.\_Kalitz and survive until the final
+    wave to restore humanity.\n\r\nWaves of enemies crash down on the ashes of civilization.
+    Your ammo is scarce; every shot must count. Use cover, sprint corridors, dodge
+    into shadows, and turn the ruins into your advantage.\r\n\r\nScavenge what you
+    can: health packs to staunch the bleeding and ammo caches to keep your guns firing.
+    Be ruthless with your choices, each decision could tip the balance between life
+    and death.\r\n\r\nStay on your feet. Survive each wave. Breathe between the storms.
+    Only by standing firm against the final wave will you reclaim hope for humanity.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}

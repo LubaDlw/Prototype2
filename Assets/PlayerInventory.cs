@@ -24,17 +24,17 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
-        if (dropItems >= 5)
-        {
-            Debug.Log("ENEMY DROPPED ALL ITEMS - ENEMY WINS");
+        // if (dropItems >= 5)
+        // {
+        //     Debug.Log("ENEMY DROPPED ALL ITEMS - ENEMY WINS");
 
-            // Call GameWin method from PlayerStats
-            if (playerStats != null)
-            {
-                playerStats.GameWin();
-            }
+        //     // Call GameWin method from PlayerStats
+        //     if (playerStats != null)
+        //     {
+        //         playerStats.GameWin(); // change win
+        //     }
 
-            // You can also trigger animations or coroutines here
-        }
+        //     // You can also trigger animations or coroutines here
+        // }
     }
 }

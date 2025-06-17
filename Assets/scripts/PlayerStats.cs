@@ -43,7 +43,7 @@ public class PlayerStats : MonoBehaviour
     public GameObject gameLosePanel;
     public GameObject damageEffectPrefab;
 
-    [Header("Mission Settings")]
+    [Header("Mission Settings - Optional Side Objectives")]
     public GameObject[] zone2Blockers;
     public GameObject[] zone3Blockers;
     public GameObject missionCompletePanel;
@@ -75,11 +75,11 @@ public class PlayerStats : MonoBehaviour
     public TMP_Text feedbackMessageText; // Text component for displaying messages
     public float feedbackDisplayDuration = 3f; // How long to show feedback messages
     
-    [Header("Coin Rewards")]
-    public int mission1CoinReward = 25;
-    public int mission2CoinReward = 50;
-    public int mission3CoinReward = 75;
-    public int waveCompletionCoinReward = 10;
+    [Header("Coin Rewards - All Reduced to 5 Coins")]
+    public int mission1CoinReward = 5; // Reduced from 25 to 5
+    public int mission2CoinReward = 5; // Reduced from 50 to 5
+    public int mission3CoinReward = 5; // Reduced from 75 to 5
+    public int waveCompletionCoinReward = 5; // Reduced from 10 to 5
 
     private PlayerShooting playerShooting; // Reference to PlayerShooting script
     private Coroutine currentFeedbackCoroutine; // To handle overlapping feedback messages
@@ -224,7 +224,7 @@ public class PlayerStats : MonoBehaviour
         if (armorTxt != null)
             armorTxt.text = armor.ToString();
 
-        // Mission Objective: Kill Enemies
+        // Mission Objective: Kill Enemies (Optional side objective)
         if (!enemyKillObjectiveComplete && enemiesKilled >= enemiesToKill)
         {
             enemyKillObjectiveComplete = true;
@@ -232,27 +232,27 @@ public class PlayerStats : MonoBehaviour
                 killEnemyMissionText.color = Color.green;
         }
 
-        // Mission Objective: Resource Pack
+        // Mission Objective: Resource Pack (Optional side objective)
         if (!resourceObjectiveComplete && hasCollectedResourcePack)
         {
             resourceObjectiveComplete = true;
         }
 
-        // Check if mission is completed
+        // Check if optional mission 1 is completed (for coin reward only)
         if (!mission1Complete && enemyKillObjectiveComplete && resourceObjectiveComplete)
         {
             CompleteMission1();
-            Debug.Log("MISSION COMPLETE: Resource collected and enemies killed.");
+            Debug.Log("OPTIONAL MISSION 1 COMPLETE: Resource collected and enemies killed. Coin reward granted.");
         }
 
-        // Check mission 2
+        // Check optional mission 2 (for coin reward only)
         if (mission1Complete && enemiesKilled >= enemiesToKill && !mission2Complete && resourceObjectiveComplete)
         {
-            Debug.Log("Mission 2 Underway");
+            Debug.Log("Optional Mission 2 Underway");
             CompleteMission2();
         }
 
-        // Wave timer logic
+        // Wave timer logic - This is what actually progresses the game
         if (isWaveActive)
         {
             currentWaveTime -= Time.deltaTime;
@@ -265,7 +265,7 @@ public class PlayerStats : MonoBehaviour
             DisplayTime(currentWaveTime);
         }
 
-        // Health check
+        // Health check - This is what ends the game
         if (health <= 0)
         {
             health = 0;
@@ -277,7 +277,7 @@ public class PlayerStats : MonoBehaviour
     {
         Debug.Log("Wave " + currentWave + " completed! Player survived.");
 
-        // Award coins for wave completion
+        // Award coins for wave completion (reduced to 5)
         AddCoins(waveCompletionCoinReward, $"Wave {currentWave} Complete! +{waveCompletionCoinReward} Coins!");
 
         if (missionCompletePanel != null)
@@ -514,13 +514,14 @@ public class PlayerStats : MonoBehaviour
         PauseGame();
     }
 
+    // Optional Mission 2 - Provides coin reward only
     void CompleteMission2()
     {
         hasCollectedResourcePack = false;
         mission2Complete = true;
-        Debug.Log("Mission 2 Complete! All objectives finished.");
+        Debug.Log("Optional Mission 2 Complete! Coin reward granted.");
         
-        // Award coins for mission completion
+        // Award coins for mission completion (reduced to 5)
         AddCoins(mission2CoinReward, $"Mission 2 Complete! +{mission2CoinReward} Coins!");
         
         enemiesToKill = 24;
@@ -536,13 +537,14 @@ public class PlayerStats : MonoBehaviour
         killEnemyMissionText.color = Color.white;
     }
 
+    // Optional Mission 1 - Provides coin reward only
     void CompleteMission1()
     {
         hasCollectedResourcePack = false;
         mission1Complete = true;
-        Debug.Log("Mission 1 Complete! All objectives finished.");
+        Debug.Log("Optional Mission 1 Complete! Coin reward granted.");
         
-        // Award coins for mission completion
+        // Award coins for mission completion (reduced to 5)
         AddCoins(mission1CoinReward, $"Mission 1 Complete! +{mission1CoinReward} Coins!");
         
         enemiesToKill = 16;

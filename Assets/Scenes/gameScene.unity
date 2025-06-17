@@ -21760,6 +21760,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 2214786816642220680, guid: ac40a8785b93389409b21db9e23c79f7, type: 3}
+  shooterEnemyPrefab: {fileID: 2214786816642220680, guid: a96aaff72e7535042a9f6cfd00064679, type: 3}
+  shooterSpawnProbability: 0.2
   waveEnemyCounts: 090000000a0000000c0000000e0000000f0000001200000019000000
   spawnDelays:
   - 2

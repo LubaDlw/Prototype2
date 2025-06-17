@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2183899994006372850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5987831678771453087}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5987831678771453087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2183899994006372850}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.602, y: 0.49, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4699015511276361479}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2214786816642220680
 GameObject:
   m_ObjectHideFlags: 0
@@ -14,10 +45,10 @@ GameObject:
   - component: {fileID: 183540508888733898}
   - component: {fileID: 4008583898810374888}
   - component: {fileID: 3321323953302935753}
-  - component: {fileID: 2677732128822072788}
   - component: {fileID: -3877251395332935149}
+  - component: {fileID: -243949330091792270}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +66,8 @@ Transform:
   m_LocalPosition: {x: -0.93, y: 0.37, z: 12.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5987831678771453087}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &9037788295327275125
@@ -121,13 +153,13 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7.65
-  m_Acceleration: 10.66
+  m_Speed: 5.59
+  m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
@@ -147,41 +179,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   detectionRange: 84.9
-  attackRange: 0.1
-  speed: 22.24
+  attackRange: 2
+  speed: 10.74
   damageAmount: 2
   attackCooldown: 0.2
   patrolRadius: 15
-  patrolWaitTime: 1.5
-  patrolSpeed: 3
-  detectionUpdateRate: 0.1
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  useLineOfSight: 0
+  patrolWaitTime: 2
+  patrolSpeed: 2
   player: {fileID: 796210146265254776, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
   bloodSplatterPrefab: {fileID: 1743637094903878, guid: 021a2f7a2c5bc4449b4c64a66a050e8c, type: 3}
   movementClip: {fileID: 8300000, guid: 05f860bb66f844d89908829a80c6fe13, type: 3}
   collisionClip: {fileID: 8300000, guid: 00f2fa79439f04ebaad4209df5a78112, type: 3}
   deathClip: {fileID: 0}
---- !u!114 &2677732128822072788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2214786816642220680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66582dfb76361d94086e20364f499c05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bonusDamage: 1
-  speedMultiplier: 1.2
-  enemyColor: {r: 1, g: 0, b: 0, a: 1}
-  chargeSpeedMultiplier: 2
-  chargeDuration: 2
-  chargeCooldown: 8
 --- !u!82 &-3877251395332935149
 AudioSource:
   m_ObjectHideFlags: 0
@@ -278,3 +287,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-243949330091792270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2214786816642220680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7c5bd3f52fbf954f882c909830d82cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 6288281060034393416, guid: 74805ff40f50f28458cb42b6c035e48b, type: 3}
+  firePoint: {fileID: 5987831678771453087}
+  shootInterval: 3
+  shootRange: 15
+  projectileSpeed: 10
