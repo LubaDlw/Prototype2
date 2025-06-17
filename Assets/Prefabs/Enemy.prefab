@@ -121,7 +121,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 5.59
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -146,13 +146,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  player: {fileID: 796210146265254776, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
-  detectionRange: 39
+  detectionRange: 84.9
   attackRange: 2
-  speed: 1.8
+  speed: 10.74
+  damageAmount: 2
+  attackCooldown: 0
+  player: {fileID: 796210146265254776, guid: d3b8a5c884c0b5f439c654ef00a59d89, type: 3}
   bloodSplatterPrefab: {fileID: 1743637094903878, guid: 021a2f7a2c5bc4449b4c64a66a050e8c, type: 3}
   movementClip: {fileID: 8300000, guid: 05f860bb66f844d89908829a80c6fe13, type: 3}
   collisionClip: {fileID: 8300000, guid: 00f2fa79439f04ebaad4209df5a78112, type: 3}
+  deathClip: {fileID: 0}
 --- !u!114 &2677732128822072788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66582dfb76361d94086e20364f499c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bonusDamage: 1
+  speedMultiplier: 1.2
+  enemyColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!82 &-3877251395332935149
 AudioSource:
   m_ObjectHideFlags: 0

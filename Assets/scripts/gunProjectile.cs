@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class gunProjectile : MonoBehaviour
 {
-    public float timeToDestroy = 2f;
+    public float timeToDestroy = 1.1f;
 
     void Start()
     {

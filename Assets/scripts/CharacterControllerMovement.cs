@@ -13,7 +13,7 @@ public class CharacterControllerMovement : MonoBehaviour
     private float xRotation = 0f;
 
     [Header("Movement Settings")]
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
     public float gravity = -9.81f;
     public float jumpHeight = 2f;
 
@@ -22,7 +22,7 @@ public class CharacterControllerMovement : MonoBehaviour
     private bool isGrounded;
 
     [Header("Sprint & Crouch")]
-    public float sprintSpeed = 8f;
+    public float sprintSpeed = 7f;
     public float crouchSpeed = 2f;
     public float crouchHeight = 1f;
     private float originalHeight;
